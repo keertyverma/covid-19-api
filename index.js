@@ -10,7 +10,7 @@ const mongoose = require("mongoose");
 
 //Set up default mongoose connection
 const mongoDB = "mongodb://127.0.0.1/covid19";
-mongoose.connect(mongoDB, { useNewUrlParser: true });
+mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 
 //Get the default connection
 var db = mongoose.connection;
@@ -32,9 +32,22 @@ const dailyReport = new mongoose.Schema({
   Longitude: String
 });
 
-const dailyReportModel = mongoose.model("dailyreport", dailyReport);
-dailyReportModel.find({}, function (err, athletes) {
-  if (err) return handleError(err);
+const dailyReportModel = mongoose.model("dailyreport", dailyReport, "dailyreport");
+
+
+
+
+const b = dailyReportModel.findOne({}, function (err, reports) {
+  if (err) return console.log(err);
+  console.log(reports)
+  mongoose.disconnect();
+
+});
+
+// console.log(b);
+
+
+
 
 // async function getReport() {
 //   //   const pageNumber = 2;
