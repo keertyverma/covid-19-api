@@ -33,7 +33,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /cases/country:
+  /cases/country/{type}:
     get:
       summary: 'Returns total count for given case type with country'
       operationId: getCasesByCountry
@@ -41,7 +41,7 @@ paths:
         - country
       parameters:
         - name: type
-          in: query
+          in: path
           description: Case type
           required: true
           schema:
@@ -59,7 +59,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /cases/state:
+  /cases/state/{type}:
     get:
       summary: 'Returns total count for given case type with state'
       operationId: getCasesByState
@@ -67,7 +67,7 @@ paths:
         - state
       parameters:
         - name: type
-          in: query
+          in: path
           description: Case type
           required: true
           schema:

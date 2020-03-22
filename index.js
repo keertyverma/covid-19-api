@@ -1,59 +1,45 @@
+const express = require("express");
+const helmet = require("helmet");
+const morgan = require("morgan");
+const startupDebugger = require("debug")("app:startup");
+const config = require("config");
+//const routes = require("./routes");
+const home = require("./routes/home");
+const cases = require("./routes/cases")
+const country = require("./routes/country")
+
+const app = express();
 const mongoose = require("mongoose");
 
-// mongoose
-//   .connect("mongodb://127.0.0.1:27017/covid19", {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true
-//   })
-//   .then(console.log("Connected to DB..."))
-//   .catch(console.log("Not able to connected to DB..."));
 
-//Set up default mongoose connection
-const mongoDB = "mongodb://127.0.0.1/covid19";
-mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
+// adding middleware to request process pipeline
+//app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(helmet());
 
-//Get the default connection
-var db = mongoose.connection;
+// Set NODE_ENV var to change the env : development, testing, production, staging
+if (app.get("env") == "development") {
+  app.use(morgan("tiny")); //This will impact in service performance, so better to make this on only for some conditions and avoid using it in Production env
+  startupDebugger("Morgan enabled ...");
+}
 
-//Bind connection to error event (to get notification of connection errors)
-db.on("error", console.error.bind(console, "MongoDB connection error:"));
+// Connect to Database
+mongoose
+  .connect("mongodb://127.0.0.1/covid19", { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("Connected to Database"))
+  .catch(err => console.error("Cannot connect to db"));
 
-//const Schema = mongoose.Schema;
+// Configuration
+console.log(`App name: ${config.get("name")}`);
+console.log(`Host : ${config.get("host")}`);
 
-// dailyreport schema
-const dailyReport = new mongoose.Schema({
-  State: String,
-  Country: String,
-  LastUpdate: String,
-  Confirmed: String,
-  Deaths: String,
-  Recovered: String,
-  Latitude: String,
-  Longitude: String
+// Port configuration
+//const port = process.env.PORT || 3000;
+const port = 3000;
+app.listen(port, () => {
+  console.log(`Listening on Port = ${port}`);
 });
 
-const dailyReportModel = mongoose.model("dailyreport", dailyReport, "dailyreport");
-
-
-
-
-const b = dailyReportModel.findOne({}, function (err, reports) {
-  if (err) return console.log(err);
-  console.log(reports)
-  mongoose.disconnect();
-
-});
-
-// console.log(b);
-
-
-
-
-// async function getReport() {
-//   //   const pageNumber = 2;
-//   //   const pageSize = 10;
-//   const reports = await dailyReportModel.find({});
-//   console.log("reports", reports);
-// }
-
-// getReport();
+app.use("/api", home);
+app.use("/api/cases", cases);
+app.use("/api/cases/country", country);
