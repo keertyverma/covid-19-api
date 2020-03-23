@@ -1,19 +1,40 @@
 const express = require("express");
 const router = express.Router();
-const dailyReportModel = require("./../models/cases");
+const dailyReportModel = require("./../models/cases"),
+    allTypes = { "confirmed": 'Confirmed', "deaths": 'Deaths', "recovered": 'Recovered' };
+
+
+async function getCountryCount(req, res) {
+    let type = (req.params.type).toLowerCase();
+    let cases = [];
+
+    if (!(type in allTypes)) {
+        return res.status(400).send({
+            code: 400,
+            message: `Case type ${req.params.type} not supported.`
+        });
+    }
+
+    cases = await dailyReportModel.dailyReportModel.aggregate([
+
+        {
+            $group: {
+                _id: "$Country",
+                count: { $sum: `$${allTypes[type]}` }
+            }
+        },
+        { $sort: { count: -1 } },
+        { $project: { "country": "$_id", count: 1, _id: 0 } }
+
+    ]);
+    res.send(cases);
+
+}
 
 
 
 //route handler function
-router.get('/:type', async (req, res) => {
-    let type = req.params.type
-
-    const countryCases = await dailyReportModel.dailyReportModel.find({ Country: countryFilter }).select({ Confirmed: 1, Deaths: 1, Recovered: 1 });
-    //if (!countryCases) return res.status(404).send('The genre with the given ID was not found.');
-
-
-    res.send(countryCases);
-});
+router.get('/:type', getCountryCount);
 
 
 module.exports = router;

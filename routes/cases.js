@@ -5,43 +5,31 @@ const dailyReportModel = require("./../models/cases");
 
 
 async function getAllCaseCount(req, res) {
+
     try {
-        let allCasesCount = {}
-        let cases = []
+        let cases = [];
         let countryFilter = req.query.country
-
         if (countryFilter) {
-            console.log("Query param is passed");
-            cases = await dailyReportModel.dailyReportModel.find({ Country: countryFilter }).select({ Confirmed: 1, Deaths: 1, Recovered: 1 });
-            //console.log(typeof cases);
-            //console.log(cases)
-            //if (!cases) return res.status(404).send(`cases for ${countryFilter} is not found.`);
-
-
+            cases = await dailyReportModel.dailyReportModel.aggregate([
+                { $match: { Country: countryFilter } },
+                { $group: { _id: "$all", confirmed: { $sum: "$Confirmed" }, deaths: { $sum: "$Deaths" }, recovered: { $sum: "$Recovered" } } },
+                { $project: { "_id": 0, "confirmed": 1, "deaths": 1, "recovered": 1 } }
+            ]);
+            if (cases.length == 0) {
+                let errorMessage = {
+                    code: 404,
+                    message: `No data found for given ${countryFilter} country`
+                };
+                return res.status(404).send(errorMessage);
+            }
         }
         else {
-            console.log("Query param is not passed");
-            cases = await dailyReportModel.dailyReportModel.find().select({ Confirmed: 1, Deaths: 1, Recovered: 1 });
+            cases = await dailyReportModel.dailyReportModel.aggregate([
+                { $group: { _id: "$all", confirmed: { $sum: "$Confirmed" }, deaths: { $sum: "$Deaths" }, recovered: { $sum: "$Recovered" } } },
+                { $project: { "_id": 0, "confirmed": 1, "deaths": 1, "recovered": 1 } }
+            ])
         }
-        let confirmedCount = 0;
-        let deathCount = 0;
-        let recoveredCount = 0;
-
-        cases.forEach(element => {
-            confirmedCount += element.Confirmed;
-            deathCount += element.Deaths;
-            recoveredCount += element.Recovered;
-
-        });
-
-        allCasesCount = {
-            confirmed: confirmedCount,
-            deaths: deathCount,
-            recovered: recoveredCount
-        }
-
-
-        res.send(allCasesCount);
+        res.send(cases[0]);
     } catch (ex) {
         for (field in ex.errors) {
             console.log(ex.errors[field].message);

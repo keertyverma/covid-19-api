@@ -3,8 +3,8 @@ info:
   version: 1.0.0
   title: COVID-19 stats server
 servers:
-  - url: 'http://localhost:3000/api'
-  - url: 'https://covid-19.com/api'
+  - url: 'http://localhost:3000/api/v1'
+  - url: 'https://covid-19.com/api/v1'
 paths:
   /cases:
     get:
@@ -33,7 +33,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /cases/country/{type}:
+  /cases/country/:type:
     get:
       summary: 'Returns total count for given case type with country'
       operationId: getCasesByCountry
@@ -59,7 +59,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /cases/state/{type}:
+  /cases/state/:type:
     get:
       summary: 'Returns total count for given case type with state'
       operationId: getCasesByState
@@ -118,11 +118,12 @@ components:
           - country
           - count
         properties:
-          country:
-            type: string
           count:
             type: integer
             format: int64
+          country:
+            type: string
+
     State:
       type: array
       items:

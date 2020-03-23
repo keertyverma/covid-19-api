@@ -7,6 +7,7 @@ const config = require("config");
 const home = require("./routes/home");
 const cases = require("./routes/cases")
 const country = require("./routes/country")
+const state = require("./routes/state")
 
 const app = express();
 const mongoose = require("mongoose");
@@ -40,6 +41,7 @@ app.listen(port, () => {
   console.log(`Listening on Port = ${port}`);
 });
 
-app.use("/api", home);
-app.use("/api/cases", cases);
-app.use("/api/cases/country", country);
+app.use("/api/v1", home);
+app.use("/api/v1/cases", cases);
+app.use("/api/v1/cases/country", country);
+app.use("/api/v1/cases/state", state);
