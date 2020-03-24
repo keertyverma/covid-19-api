@@ -12,5 +12,4 @@ const dailyReport = new mongoose.Schema({
     Longitude: String
 });
 
-const dailyReportModel = mongoose.model("dailyreport", dailyReport, "dailyreport");
-exports.dailyReportModel = dailyReportModel;
+module.exports.dailyReport = mongoose.model("dailyreport", dailyReport, "dailyreport");

@@ -1,45 +1,45 @@
-const express = require("express");
-const router = express.Router();
-const dailyReportModel = require("./../models/cases");
+const express = require("express"),
+    router = express.Router(),
+    dailyReportModel = require("../models/dailyreport");
 
+// const imports = require("./index");
 
+// const router = imports.express.Router(),
+//     dailyReportModel = imports.dailyReportModel;
 
 async function getAllCaseCount(req, res) {
-
     try {
-        let cases = [];
-        let countryFilter = req.query.country
+        let cases = [],
+            aggregates = [
+                { $group: { _id: "$all", confirmed: { $sum: "$Confirmed" }, deaths: { $sum: "$Deaths" }, recovered: { $sum: "$Recovered" } } },
+                { $project: { "_id": 0 } }
+            ],
+            countryFilter = req.query.country;
+
         if (countryFilter) {
-            cases = await dailyReportModel.dailyReportModel.aggregate([
-                { $match: { Country: countryFilter } },
-                { $group: { _id: "$all", confirmed: { $sum: "$Confirmed" }, deaths: { $sum: "$Deaths" }, recovered: { $sum: "$Recovered" } } },
-                { $project: { "_id": 0, "confirmed": 1, "deaths": 1, "recovered": 1 } }
-            ]);
-            if (cases.length == 0) {
-                let errorMessage = {
-                    code: 404,
-                    message: `No data found for given ${countryFilter} country`
-                };
-                return res.status(404).send(errorMessage);
-            }
+            aggregates.unshift({ $match: { Country: countryFilter } })
         }
-        else {
-            cases = await dailyReportModel.dailyReportModel.aggregate([
-                { $group: { _id: "$all", confirmed: { $sum: "$Confirmed" }, deaths: { $sum: "$Deaths" }, recovered: { $sum: "$Recovered" } } },
-                { $project: { "_id": 0, "confirmed": 1, "deaths": 1, "recovered": 1 } }
-            ])
+
+        cases = await dailyReportModel.dailyReport.aggregate(aggregates)
+
+        if (cases.length == 0) {
+            return res.status(404).send({
+                code: 404,
+                message: `No data found for given filter[s] - ${JSON.stringify(req.query).replace(/"/g, '\'')}`
+            });
         }
+
         res.send(cases[0]);
     } catch (ex) {
-        for (field in ex.errors) {
-            console.log(ex.errors[field].message);
-        }
-    }
-}
+        console.log(ex);
 
+        return res.status(500).send({
+            code: 500,
+            message: 'Internal server error'
+        });
+    }
+};
 
 //route handler function
 router.get('/', getAllCaseCount);
-
-
 module.exports = router;
