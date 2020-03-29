@@ -2,11 +2,6 @@ const express = require("express"),
     router = express.Router(),
     dailyReportModel = require("../models/dailyreport");
 
-// const imports = require("./index");
-
-// const router = imports.express.Router(),
-//     dailyReportModel = imports.dailyReportModel;
-
 async function getAllCaseCount(req, res) {
     try {
         let cases = [],

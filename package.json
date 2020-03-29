@@ -13,13 +13,15 @@
   "keywords": [],
   "dependencies": {
     "config": "^3.2.2",
+    "date-and-time": "^0.13.1",
     "debug": "^4.1.1",
     "express": "^4.17.1",
     "helmet": "^3.21.0",
     "joi": "^14.3.1",
     "mongoose": "^5.7.1",
     "morgan": "^1.9.1",
-    "pug": "^2.0.4"
+    "pug": "^2.0.4",
+    "request": "^2.88.2"
   },
   "author": "",
   "license": "ISC",

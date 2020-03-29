@@ -3,10 +3,7 @@ const express = require("express"),
   morgan = require("morgan"),
   startupDebugger = require("debug")("app:startup"),
   config = require("config"),
-  home = require("./routes/home"),
   routes = require("./routes"),
-  country = require("./routes/country"),
-  state = require("./routes/state"),
   mongoose = require("mongoose");
 
 const app = express();
@@ -23,8 +20,19 @@ if (app.get("env") == "development") {
 }
 
 // Connect to Database
+let dbHost = config.get("dbHost"),
+  dbPort = config.get("dbPort"),
+  dbName = config.get("dbName"),
+  dbUsername = config.get("dbUsername"),
+  dbPassword = config.get("dbPassword");
+
+// mongodb://username:password@host:port/database
+let dbConnectionUrl = `mongodb://${dbUsername}:${dbPassword}@${dbHost}:${dbPort}/${dbName}`;
 mongoose
-  .connect("mongodb://127.0.0.1/covid19", { useNewUrlParser: true, useUnifiedTopology: true })
+  //  .connect("mongodb://127.0.0.1/covid19", { useNewUrlParser: true, useUnifiedTopology: true })
+  //.connect("mongodb://piku:sumopiku101@127.0.0.1:27017/covid19", { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(dbConnectionUrl, { useNewUrlParser: true, useUnifiedTopology: true })
+
   .then(() => console.log("Connected to Database"))
   .catch(err => console.error("Cannot connect to db"));
 
@@ -38,7 +46,8 @@ app.listen(port, () => {
   console.log(`Listening on Port = ${port}`);
 });
 
-app.use("/api/v1", home);
+app.use("/api/v1", routes.homeRouter);
 app.use("/api/v1/cases", routes.caseRouter);
 app.use("/api/v1/cases/country", routes.countryRouter);
 app.use("/api/v1/cases/state", routes.stateRouter);
+app.use("/api/v1/refresh", routes.refreshRouter);

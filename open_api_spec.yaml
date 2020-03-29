@@ -91,6 +91,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /refresh:
+    get:
+      summary: 'refresh data to latest and return latest date'
+      operationId: getLatestDara
+      tags:
+        - refresh
+      responses:
+        '200':
+          description: 'return refresh date'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Refresh'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 components:
   schemas:
     Cases:
@@ -140,6 +159,14 @@ components:
           count:
             type: integer
             format: int64
+    Refresh:
+      type: object
+      required:
+        - lastUpdate
+      properties:
+        lastUpdate:
+          type: string
+
     Error:
       type: object
       required:
