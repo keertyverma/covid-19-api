@@ -1,5 +1,7 @@
 # Novel Coronavirus COVID-19 API
 
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/e3db374a45c3f3a7eec1)
+
 This is an API for the Novel Coronavirus (COVID-19) Statistics.
 
 Source of data for this API is [Johns Hopkins University Center for Systems Science and Engineering (JHU CSSE) Github Repository](https://github.com/CSSEGISandData/COVID-19).
@@ -32,7 +34,7 @@ This will start a server at port 3000. If you want to use different port or any 
 
 ## List of available API
 
-Case types are confirmed, deaths and recovered. Open API 3 Spec is present in repo with name `open-api-3-spec.yml`.
+[Public Documentation has been made available](https://documenter.getpostman.com/view/5352730/SzYbyxR5?version=latest). Here is a run in Postman button to import the same and test. [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/e3db374a45c3f3a7eec1) Case types are confirmed, deaths and recovered. Open API 3 Spec is present in repo with name `open-api-3-spec.yml`.
 
       baseurl = http://localhost:3000/v1/api
 
