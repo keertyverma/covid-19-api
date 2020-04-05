@@ -1,0 +1,7 @@
+{
+  "dbHost": "development-db-host",
+  "dbPort": "development-db-port",
+  "dbName": "development-db-name",
+  "dbUsername": "development-db-username",
+  "dbPassword": "development-db-password"
+}

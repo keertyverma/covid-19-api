@@ -22,7 +22,7 @@ For MongoDB, I have used [official Docker image](https://hub.docker.com/_/mongo)
       "dbUsername": "production-db-username",
       "dbPassword": "production-db-password"
 
-To start the server, please run following command while being at root of project
+There is no need to configure any collection and documents in MongoDB. To start the server, please run following command while being at root of project
 
       node index.js
 
