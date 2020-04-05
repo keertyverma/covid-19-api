@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
 
 // Set NODE_ENV var to change the env : development, testing, production, staging
-if (app.get("env") == "development") {
+if (app.get("env") !== "production") {
   app.use(morgan("tiny")); //This will impact in service performance, so better to make this on only for some conditions and avoid using it in Production env
 }
 

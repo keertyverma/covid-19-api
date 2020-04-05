@@ -4,15 +4,33 @@ This is an API for the Novel Coronavirus (COVID-19) Statistics.
 
 Source of data for this API is [Johns Hopkins University Center for Systems Science and Engineering (JHU CSSE) Github Repository](https://github.com/CSSEGISandData/COVID-19).
 
-## What COVID-19 Stats API provides
+Using API, you can search COVID-19 confirmed, death and recovered cases all around the world.
 
-Using API, you can search COVID-19 confirmed, death and recovered cases all around the world. To start the server, please run following command while being at root of project
+## How to use
+
+### Pre-requisites
+
+   1. Node (Tested with v12.13.1)
+   2. MongoDB (Tested with v4.2)
+   3. Internet connection
+
+For MongoDB, I have used [official Docker image](https://hub.docker.com/_/mongo), you can either use the same or install direcly on your system. Default configuration used in project assumes everything default with the Docker image, if you want to change any configuration, change it in your environment specific file in `config` folder.
+
+      "dbHost": "production-db-host",
+      "dbPort": "production-db-port",
+      "dbName": "production-db-name",
+      "dbUsername": "production-db-username",
+      "dbPassword": "production-db-password"
+
+To start the server, please run following command while being at root of project
 
       node index.js
 
-This will start a server at port 3000.
+This will start a server at port 3000. If you want to use different port or any other configuration, you can update the same in config file under `config` folder. Here each file represents different config sets and can be chosen by setting `NODE_ENV` environment variable before starting the server. for e.g.
 
-### List of available API
+      NODE_ENV=development node index.js
+
+## List of available API
 
 Case types are confirmed, deaths and recovered. Open API 3 Spec is present in repo with name `open-api-3-spec.yml`.
 
