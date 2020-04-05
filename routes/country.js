@@ -1,8 +1,7 @@
 const express = require("express"),
     router = express.Router(),
-    dailyReportModel = require("../models/dailyreport"),
+    dailyReportModel = require("../models//dailyreport"),
     allTypes = { "confirmed": 'Confirmed', "deaths": 'Deaths', "recovered": 'Recovered' };
-
 
 async function getCountryCount(req, res) {
     try {
@@ -19,7 +18,7 @@ async function getCountryCount(req, res) {
         cases = await dailyReportModel.dailyReport.aggregate([
             {
                 $group: {
-                    _id: "$Country",
+                    _id: "$Country_Region",
                     count: { $sum: `$${allTypes[type]}` }
                 }
             },

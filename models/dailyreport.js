@@ -1,15 +1,19 @@
 const mongoose = require("mongoose");
 
-// dailyreport schema
 const dailyReport = new mongoose.Schema({
-    State: String,
-    Country: String,
-    LastUpdate: String,
+    _id: String,
+    FIPS: Number,
+    Admin2: String,
+    Province_State: String,
+    Country_Region: String,
+    Last_Update: String,
+    Lat: Number,
+    Long_: Number,
     Confirmed: Number,
     Deaths: Number,
     Recovered: Number,
-    Latitude: String,
-    Longitude: String
+    Active: Number
+
 });
 
 module.exports.dailyReport = mongoose.model("dailyreport", dailyReport, "dailyreport");

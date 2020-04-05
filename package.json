@@ -1,7 +1,7 @@
 {
   "name": "covid-19-stats",
   "version": "1.0.0",
-  "description": "**Edit a file, create a new file, and clone from Bitbucket in under 2 minutes**",
+  "description": "**API to get information about COVID-19 cases around the world**",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,6 +13,7 @@
   "keywords": [],
   "dependencies": {
     "config": "^3.2.2",
+    "csvtojson": "^2.0.10",
     "date-and-time": "^0.13.1",
     "debug": "^4.1.1",
     "express": "^4.17.1",
@@ -20,8 +21,7 @@
     "joi": "^14.3.1",
     "mongoose": "^5.7.1",
     "morgan": "^1.9.1",
-    "pug": "^2.0.4",
-    "request": "^2.88.2"
+    "node-fetch": "^2.6.0"
   },
   "author": "",
   "license": "ISC",

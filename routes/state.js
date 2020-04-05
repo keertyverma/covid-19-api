@@ -11,7 +11,7 @@ async function getStateCaseCount(req, res) {
             aggregates = [
                 {
                     $group: {
-                        _id: { state: "$State", country: "$Country" },
+                        _id: { state: "$Province_State", country: "$Country_Region" },
                         count: { $sum: `$${allTypes[type]}` }
                     }
                 },
@@ -26,7 +26,7 @@ async function getStateCaseCount(req, res) {
         }
 
         if (countryFilter) {
-            aggregates.unshift({ $match: { Country: countryFilter } })
+            aggregates.unshift({ $match: { Country_Region: countryFilter } })
         }
 
         cases = await dailyReportModel.dailyReport.aggregate(aggregates)

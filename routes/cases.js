@@ -12,7 +12,7 @@ async function getAllCaseCount(req, res) {
             countryFilter = req.query.country;
 
         if (countryFilter) {
-            aggregates.unshift({ $match: { Country: countryFilter } })
+            aggregates.unshift({ $match: { Country_Region: countryFilter } })
         }
 
         cases = await dailyReportModel.dailyReport.aggregate(aggregates)
