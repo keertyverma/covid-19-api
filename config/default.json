@@ -1,0 +1,9 @@
+{
+  "name": "COVID-19 stats server",
+  "serverPort": 3000,
+  "dbHost": "mongo-db-host",
+  "dbPort": "mongo-db-port",
+  "dbName": "mongo-db-name",
+  "dbUsername": "mongo-db-username",
+  "dbPassword": "mongo-db-password"
+}
