@@ -1,12 +1,14 @@
 # Novel Coronavirus COVID-19 API
 
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/e3db374a45c3f3a7eec1)
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/e3db374a45c3f3a7eec1) [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 This is an API for the Novel Coronavirus (COVID-19) Statistics.
 
 Source of data for this API is [Johns Hopkins University Center for Systems Science and Engineering (JHU CSSE) Github Repository](https://github.com/CSSEGISandData/COVID-19).
 
 Using API, you can search COVID-19 confirmed, death and recovered cases all around the world.
+
+API is hosted at https://covid19-stats-api.herokuapp.com
 
 ## How to use
 
