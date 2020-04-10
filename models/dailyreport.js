@@ -13,7 +13,6 @@ const dailyReport = new mongoose.Schema({
     Deaths: Number,
     Recovered: Number,
     Active: Number
-
 });
 
 module.exports.dailyReport = mongoose.model("dailyreport", dailyReport, "dailyreport");

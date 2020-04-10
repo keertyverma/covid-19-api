@@ -3,7 +3,8 @@ const express = require("express"),
     dailyReportModel = require("../models/dailyreport"),
     fetch = require("node-fetch"),
     date = require("date-and-time"),
-    csv = require('csvtojson');
+    csv = require('csvtojson'),
+    winston = require("winston");
 
 
 async function updateDBData(csvdata) {
@@ -28,63 +29,52 @@ async function updateDBData(csvdata) {
 }
 
 async function updateData(req, res) {
+    const oneRowData = await dailyReportModel.dailyReport.find({}, { 'Last_Update': 1 }).sort({ 'Last_Update': -1 }).limit(1);
+    currentDBFileDate = ((oneRowData[0].Last_Update).split(" "))[0] // date format: YYYY-MM-DD
+    lastUpdateDBDate = currentDBFileDate;
 
-    try {
-        const oneRowData = await dailyReportModel.dailyReport.find({}, { 'Last_Update': 1 }).sort({ 'Last_Update': -1 }).limit(1);
-        currentDBFileDate = ((oneRowData[0].Last_Update).split(" "))[0] // date format: YYYY-MM-DD
-        lastUpdateDBDate = currentDBFileDate;
+    // call to github repo and get content from path where all csv file is present
+    const repoURL = 'https://api.github.com/repos/CSSEGISandData/COVID-19/contents/csse_covid_19_data/csse_covid_19_daily_reports';
+    const options = {
+        method: 'GET',
+        headers: {
+            'User-Agent': "keertyverma"
+        }
+    };
 
-        // call to github repo and get content from path where all csv file is present
-        const repoURL = 'https://api.github.com/repos/CSSEGISandData/COVID-19/contents/csse_covid_19_data/csse_covid_19_daily_reports';
-        const options = {
+    const response = await fetch(repoURL, options);
+    const data = await response.json();
+    const lastUpdatedGitFile = data[data.length - 2];
+    let currentGitFileDate = lastUpdatedGitFile.name; // date format: MM-DD-YYYY
+    currentGitFileDate = currentGitFileDate.replace(".csv", "");
+    winston.info(`currentDBFileDate  = ${currentDBFileDate}`);
+    winston.info(`currentGitFileDate  = ${currentGitFileDate}`);
+    formatedCurrentDBFileDate = date.parse(currentDBFileDate, "YYYY-MM-DD");
+    formatedCurrentGitFileDate = date.parse(currentGitFileDate, "MM-DD-YYYY");
+
+    if (formatedCurrentDBFileDate.getTime() === formatedCurrentGitFileDate.getTime()) {
+        winston.info("Data is up-to-date");
+        return res.send({ message: "Data is up-to-date", lastUpdate: formatedCurrentGitFileDate.toString() });
+    }
+    else {
+        // Refresh DB with updated data
+        winston.log("info", "Data is not up-to-date !!!");
+        downloadURL = lastUpdatedGitFile.download_url;
+        const options2 = {
             method: 'GET',
             headers: {
                 'User-Agent': "keertyverma"
             }
         };
+        const csvresponse = await fetch(downloadURL, options2);
+        let csvdata = await csvresponse.text();
+        csvdata = csvdata.replace("Combined_Key", "_id")
 
-        const response = await fetch(repoURL, options);
-        const data = await response.json();
-        const lastUpdatedGitFile = data[data.length - 2];
-        let currentGitFileDate = lastUpdatedGitFile.name; // date format: MM-DD-YYYY
-        currentGitFileDate = currentGitFileDate.replace(".csv", "");
-        console.log(`currentDBFileDate  = ${currentDBFileDate}`);
-        console.log(`currentGitFileDate = ${currentGitFileDate}`);
-        formatedCurrentDBFileDate = date.parse(currentDBFileDate, "YYYY-MM-DD");
-        formatedCurrentGitFileDate = date.parse(currentGitFileDate, "MM-DD-YYYY");
+        await updateDBData(csvdata);
+        return res.send({ message: "Data is refreshed now", lastUpdate: formatedCurrentGitFileDate.toString() });
 
-        if (formatedCurrentDBFileDate.getTime() === formatedCurrentGitFileDate.getTime()) {
-            console.log("Data is up-to-date");
-            return res.send({ message: "Data is up-to-date", lastUpdate: formatedCurrentGitFileDate.toString() });
-        }
-        else {
-            // Refresh DB with updated data
-            console.log("Data is not up-to-date!!!");
-            downloadURL = lastUpdatedGitFile.download_url;
-            const options2 = {
-                method: 'GET',
-                headers: {
-                    'User-Agent': "keertyverma"
-                }
-            };
-            const csvresponse = await fetch(downloadURL, options2);
-            let csvdata = await csvresponse.text();
-            csvdata = csvdata.replace("Combined_Key", "_id")
+    };
 
-            await updateDBData(csvdata);
-            return res.send({ message: "Data is refreshed now", lastUpdate: formatedCurrentGitFileDate.toString() });
-
-        };
-
-
-    } catch (ex) {
-        console.log(ex);
-
-        return res.status(500).send({
-            code: 500,
-            message: 'Internal server error'
-        });
-    }
 }
 
 //route handler function

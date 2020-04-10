@@ -4,7 +4,11 @@
   "description": "**API to get information about COVID-19 cases around the world**",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": "12.13.1"
   },
   "repository": {
     "type": "git",
@@ -12,16 +16,19 @@
   },
   "keywords": [],
   "dependencies": {
+    "compression": "^1.7.4",
     "config": "^3.2.2",
     "csvtojson": "^2.0.10",
     "date-and-time": "^0.13.1",
     "debug": "^4.1.1",
     "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
     "helmet": "^3.21.0",
     "joi": "^14.3.1",
     "mongoose": "^5.7.1",
     "morgan": "^1.9.1",
-    "node-fetch": "^2.6.0"
+    "node-fetch": "^2.6.0",
+    "winston": "^3.2.1"
   },
   "author": "",
   "license": "ISC",
