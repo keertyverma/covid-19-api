@@ -1,0 +1,23 @@
+{
+    "name": "COVID-19 Stats API",
+    "description": "API to get information about COVID-19 cases around the world",
+    "repository": "https://github.com/keertyverma/covid-19-stats-api",
+    "logo": "https://node-js-sample.herokuapp.com/node.png",
+    "keywords": [
+        "node",
+        "express",
+        "mongodb"
+    ],
+    "env": {
+        "NODE_ENV": {
+            "description": "Node environment variable",
+            "value": "production",
+            "required": true
+        },
+        "db_connection_string": {
+            "description": "MongoDB Connection string",
+            "value": "5",
+            "requierd": true
+        }
+    }
+}

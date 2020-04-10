@@ -1,7 +1,7 @@
 {
   "name": "covid-19-stats",
   "version": "1.0.0",
-  "description": "**API to get information about COVID-19 cases around the world**",
+  "description": "API to get information about COVID-19 cases around the world",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

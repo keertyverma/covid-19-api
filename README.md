@@ -8,7 +8,7 @@ Source of data for this API is [Johns Hopkins University Center for Systems Scie
 
 Using API, you can search COVID-19 confirmed, death and recovered cases all around the world.
 
-API is hosted at https://covid19-stats-api.herokuapp.com
+API is hosted with support of Heroku and MongoDB Atlas at https://covid19-stats-api.herokuapp.com . First API call takes time as Heroku moves inactive apps into sleep mode.
 
 ## How to use
 
@@ -25,6 +25,8 @@ For MongoDB, I have used [official Docker image](https://hub.docker.com/_/mongo)
       "dbName": "production-db-name",
       "dbUsername": "production-db-username",
       "dbPassword": "production-db-password"
+
+MongoDB configuration can also be provided by environment variable `db_connection_string`. If this is provided we skip all the above defined config variables.
 
 There is no need to configure any collection and documents in MongoDB. To start the server, please run following command while being at root of project
 
