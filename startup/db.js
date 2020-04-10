@@ -13,7 +13,8 @@ module.exports = function () {
         dbPassword = config.get("dbPassword");
 
     // mongodb://username:password@host:port/database
-    let dbConnectionUrl = `mongodb://${dbUsername}:${dbPassword}@${dbHost}:${dbPort}/${dbName}`;
+    let dbConnectionUrl = config.get("dbConnectionString") || `mongodb://${dbUsername}:${dbPassword}@${dbHost}:${dbPort}/${dbName}`;
+
     mongoose
         .connect(dbConnectionUrl, { useNewUrlParser: true, useUnifiedTopology: true })
         .then(() => winston.info("Connected to Database"))
