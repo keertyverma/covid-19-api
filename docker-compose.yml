@@ -1,0 +1,22 @@
+version: "3.7"
+services:
+  api:
+    image: covid-19-stats:1.0
+    container_name: covid-api
+    ports:
+      - "3000:3000"
+    expose:
+      - "3000"
+    environment:
+      NODE_ENV: production
+      db_connection_string: mongodb://db:27017/covid19
+    depends_on:
+      - db
+    restart: on-failure
+
+  db:
+    image: mongo:4.2
+    container_name: covid-db
+    ports:
+      - "27017:27017"
+    restart: on-failure
