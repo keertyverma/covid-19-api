@@ -1,5 +1,4 @@
 node_modules
 .vscode
-logfile.log
-uncaughtException.log
+*.log
 config/testing.json

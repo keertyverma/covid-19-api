@@ -17,9 +17,15 @@ async function getAllCaseCount(req, res) {
     cases = await dailyReportModel.dailyReport.aggregate(aggregates)
 
     if (cases.length == 0) {
+        let errorMessage = "No data found";
+
+        if (countryFilter) {
+            errorMessage = `No data found for given filter[s] - ${JSON.stringify(req.query).replace(/"/g, '\'')}`
+        }
+
         return res.status(404).send({
             code: 404,
-            message: `No data found for given filter[s] - ${JSON.stringify(req.query).replace(/"/g, '\'')}`
+            message: errorMessage
         });
     }
 
