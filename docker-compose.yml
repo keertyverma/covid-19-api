@@ -1,26 +1,28 @@
 version: '3.7'
 services:
-  covid-19-api:
+  api:
     image: covid-19-stats:1.0
     ports:
-        #- "3000:3000"
         - "3000:3000"
     expose:
         - "3000"
     environment:
       NODE_ENV: production
-      db_connection_string: "mongodb://192.168.0.106:27018/covid19"
-      #db_connection_string: "mongodb://piku:sumopiku101@192.168.0.106:27017/covid19"
+      db_connection_string: mongodb://db:27017/covid19
     depends_on:
-        - covid-19-mongodb
-    restart: always
+        - db
+    networks:
+        - app-network
+    restart: on-failure
 
-  covid-19-mongodb:
+  db:
     image: mongo:4.2
     ports:
-      - 27018:27017
-    # volumes:
-    #   - mongodb_data_container:/data/db
+        - "27017:27017"
+    networks:
+        - app-network
+    restart: on-failure
 
-# volumes:
-#   mongodb_data_container:
+networks:
+    app-network:
+        driver: bridge
