@@ -1,0 +1,5 @@
+node_modules
+.vscode
+logfile.log
+uncaughtException.log
+config/testing.json
