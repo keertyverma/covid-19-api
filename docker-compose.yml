@@ -2,6 +2,7 @@ version: '3.7'
 services:
   api:
     image: covid-19-stats:1.0
+    container_name: covid-api
     ports:
         - "3000:3000"
     expose:
@@ -11,18 +12,11 @@ services:
       db_connection_string: mongodb://db:27017/covid19
     depends_on:
         - db
-    networks:
-        - app-network
     restart: on-failure
 
   db:
     image: mongo:4.2
+    container_name: covid-api-db
     ports:
         - "27017:27017"
-    networks:
-        - app-network
     restart: on-failure
-
-networks:
-    app-network:
-        driver: bridge
