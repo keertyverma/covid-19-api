@@ -10,9 +10,42 @@ Using API, you can search COVID-19 confirmed, death and recovered cases all arou
 
 API is hosted with support of Heroku and MongoDB Atlas at https://covid19-stats-api.herokuapp.com . First API call takes time as Heroku moves inactive apps into sleep mode.
 
-## How to use
+## Installation steps
+### 1. Deploy via Docker
+#### Pre-requisites
+   1. [Docker](https://docs.docker.com/engine/installation/)
+   2. [Docker Compose](https://docs.docker.com/compose/install/)
+   3. Internet connection
 
-### Pre-requisites
+#### Steps
+1. Download docker-compose.yml file available in repository
+2. Deploy covid-19 stats using `docker-compose` within the same folder
+
+      Start the application using the following command:
+
+      ```Shell
+      docker-compose up -d --force-recreate
+      ```
+      Where:
+      - **up** creates and starts containers
+      - **-d** daemon mode
+      - **--force-recreate** Re-creates containers if there any
+
+      **Useful commands:**
+      - **docker-compose logs** shows logs from all containers
+      - **docker logs &lt;container_name&gt;** shows logs from selected container
+
+3. Open in your browser IP address of deployed environment at port `3000`
+      ```
+      $ http://IP_ADDRESS:3000/v1/api
+      ```
+4. Populate base data by calling below endpoint
+      ```
+      $ http://IP_ADDRESS:3000/v1/api/refresh
+      ```
+
+### 2. Deploy without Docker
+#### Pre-requisites
 
    1. Node (Tested with v12.13.1)
    2. MongoDB (Tested with v4.2)
@@ -28,7 +61,7 @@ For MongoDB, I have used [official Docker image](https://hub.docker.com/_/mongo)
 
 MongoDB configuration can also be provided by environment variable `db_connection_string`. If this is provided we skip all the above defined config variables.
 
-There is no need to configure any collection and documents in MongoDB. To start the server, please run following command while being at root of project
+There is no need to configure any collection and documents in MongoDB.To start the server, please run following command while being at root of project
 
       node index.js
 

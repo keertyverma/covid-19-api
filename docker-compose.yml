@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   api:
-    image: covid-19-stats:1.0
+    image: keertyverma/covid-19-stats:latest
     container_name: covid-api
     ports:
         - "3000:3000"
