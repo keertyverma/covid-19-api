@@ -12,11 +12,11 @@ services:
       db_connection_string: mongodb://db:27017/covid19
     depends_on:
         - db
-    restart: on-failure
+   restart: on-failure
 
   db:
     image: mongo:4.2
-    container_name: covid-api-db
+    container_name: covid-db
     ports:
-        - "27017:27017"
+      - "27017:27017"
     restart: on-failure
