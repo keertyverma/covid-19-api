@@ -4,15 +4,15 @@ services:
     image: keertyverma/covid-19-stats:latest
     container_name: covid-api
     ports:
-        - "3000:3000"
+      - "3000:3000"
     expose:
-        - "3000"
+      - "3000"
     environment:
       NODE_ENV: production
       db_connection_string: mongodb://db:27017/covid19
     depends_on:
-        - db
-   restart: on-failure
+      - db
+    restart: on-failure
 
   db:
     image: mongo:4.2

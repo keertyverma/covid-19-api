@@ -31,23 +31,13 @@ API is hosted with support of Heroku and MongoDB Atlas at https://covid19-stats-
       - **up** creates and starts containers
       - **-d** daemon mode
       - **--force-recreate** Re-creates containers if there any
-
-3. Make GET request to below url via Postman, for more details visit below section. You can also get this data via opening this link in browser.
-
-        http://localhost:3000/
-
-4. Populate base data by calling below endpoint
-
-        http://localhost:3000/v1/api/refresh
-
-5. To get your data, visit
-
-        http://localhost:3000/v1/api/cases
+3. Your server would be running at port `3000` on `localhost`
 
 #### Useful commands
 
 - **docker-compose logs** shows logs from all containers
 - **docker logs &lt;container_name&gt;** shows logs from selected container
+- **docker-compose down &lt;container_name&gt;** removes existing containers
 
 ### Deploy without Docker
 
@@ -67,11 +57,13 @@ For MongoDB, I have used [official Docker image](https://hub.docker.com/_/mongo)
 
 MongoDB configuration can also be provided by environment variable `db_connection_string`. If this is provided we skip all the above defined config variables.
 
-There is no need to configure any collection and documents in MongoDB.To start the server, please run following command while being at root of project
+There is no need to configure any collection and documents in MongoDB. To start the server, please run following command while being at root of project
 
       node index.js
 
-This will start a server at port 3000. If you want to use different port or any other configuration, you can update the same in config file under `config` folder. Here each file represents different config sets and can be chosen by setting `NODE_ENV` environment variable before starting the server. for e.g.
+This will start a server at port `3000` on `localhost`.
+
+If you want to use different port or any other configuration, you can update the same in config file under `config` folder. Here each file represents different config sets and can be chosen by setting `NODE_ENV` environment variable before starting the server. for e.g.
 
       NODE_ENV=development node index.js
 
@@ -83,17 +75,17 @@ This will start a server at port 3000. If you want to use different port or any 
 
 2. Populate base data by calling below endpoint
 
-        http://localhost:3000/v1/api/refresh
+        http://localhost:3000/api/v1/refresh
 
 3. To get your data, visit
 
-        http://localhost:3000/v1/api/cases
+        http://localhost:3000/api/v1/cases
 
 ### List of available APIs
 
 [Public Documentation has been made available](https://documenter.getpostman.com/view/5352730/SzYbyxR5?version=latest). Here is a [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/e3db374a45c3f3a7eec1) button to import the same and test.  Case types are confirmed, deaths and recovered. Open API 3 Spec is present in repo with name `open-api-3-spec.yml`.
 
-      baseurl = http://localhost:3000/v1/api
+      baseurl = http://localhost:3000/api/v1
 
 1. Get information on all types of cases for all countries
 
