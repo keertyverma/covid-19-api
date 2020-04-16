@@ -10,9 +10,48 @@ Using API, you can search COVID-19 confirmed, death and recovered cases all arou
 
 API is hosted with support of Heroku and MongoDB Atlas at https://covid19-stats-api.herokuapp.com . First API call takes time as Heroku moves inactive apps into sleep mode.
 
-## How to use
+## Installation steps
 
-### Pre-requisites
+### Deploy via Docker
+
+#### Pre-requisites
+
+   1. [Docker](https://docs.docker.com/engine/installation/)
+   2. [Docker Compose](https://docs.docker.com/compose/install/)
+   3. Internet connection
+
+#### Steps
+
+1. Navigate to the project root directory where `docker-compose.yml` file is present.
+2. Run the following command in the same folder via terminal. It deploys the server using `docker-compose`.
+
+          docker-compose up -d --force-recreate
+
+      Where:
+      - **up** creates and starts containers
+      - **-d** daemon mode
+      - **--force-recreate** Re-creates containers if there any
+
+3. Make GET request to below url via Postman, for more details visit below section. You can also get this data via opening this link in browser.
+
+        http://localhost:3000/
+
+4. Populate base data by calling below endpoint
+
+        http://localhost:3000/v1/api/refresh
+
+5. To get your data, visit
+
+        http://localhost:3000/v1/api/cases
+
+#### Useful commands
+
+- **docker-compose logs** shows logs from all containers
+- **docker logs &lt;container_name&gt;** shows logs from selected container
+
+### Deploy without Docker
+
+#### Pre-requisites
 
    1. Node (Tested with v12.13.1)
    2. MongoDB (Tested with v4.2)
@@ -28,7 +67,7 @@ For MongoDB, I have used [official Docker image](https://hub.docker.com/_/mongo)
 
 MongoDB configuration can also be provided by environment variable `db_connection_string`. If this is provided we skip all the above defined config variables.
 
-There is no need to configure any collection and documents in MongoDB. To start the server, please run following command while being at root of project
+There is no need to configure any collection and documents in MongoDB.To start the server, please run following command while being at root of project
 
       node index.js
 
@@ -36,7 +75,21 @@ This will start a server at port 3000. If you want to use different port or any 
 
       NODE_ENV=development node index.js
 
-## List of available API
+## Accessing local server
+
+1. Make GET request to below url via Postman, for more details visit below section. You can also get this data via opening this link in browser.
+
+        http://localhost:3000/
+
+2. Populate base data by calling below endpoint
+
+        http://localhost:3000/v1/api/refresh
+
+3. To get your data, visit
+
+        http://localhost:3000/v1/api/cases
+
+### List of available APIs
 
 [Public Documentation has been made available](https://documenter.getpostman.com/view/5352730/SzYbyxR5?version=latest). Here is a [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/e3db374a45c3f3a7eec1) button to import the same and test.  Case types are confirmed, deaths and recovered. Open API 3 Spec is present in repo with name `open-api-3-spec.yml`.
 
