@@ -11,40 +11,46 @@ Using API, you can search COVID-19 confirmed, death and recovered cases all arou
 API is hosted with support of Heroku and MongoDB Atlas at https://covid19-stats-api.herokuapp.com . First API call takes time as Heroku moves inactive apps into sleep mode.
 
 ## Installation steps
-### 1. Deploy via Docker
+
+### Deploy via Docker
+
 #### Pre-requisites
+
    1. [Docker](https://docs.docker.com/engine/installation/)
    2. [Docker Compose](https://docs.docker.com/compose/install/)
    3. Internet connection
 
 #### Steps
-1. Download docker-compose.yml file available in repository
-2. Deploy covid-19 stats using `docker-compose` within the same folder
 
-      Start the application using the following command:
+1. Navigate to the project root directory where `docker-compose.yml` file is present.
+2. Run the following command in the same folder via terminal. It deploys the server using `docker-compose`.
 
-      ```Shell
-      docker-compose up -d --force-recreate
-      ```
+          docker-compose up -d --force-recreate
+
       Where:
       - **up** creates and starts containers
       - **-d** daemon mode
       - **--force-recreate** Re-creates containers if there any
 
-      **Useful commands:**
-      - **docker-compose logs** shows logs from all containers
-      - **docker logs &lt;container_name&gt;** shows logs from selected container
+3. Make GET request to below url via Postman, for more details visit below section. You can also get this data via opening this link in browser.
 
-3. Open in your browser IP address of deployed environment at port `3000`
-      ```
-      $ http://IP_ADDRESS:3000/v1/api
-      ```
+        http://localhost:3000/
+
 4. Populate base data by calling below endpoint
-      ```
-      $ http://IP_ADDRESS:3000/v1/api/refresh
-      ```
 
-### 2. Deploy without Docker
+        http://localhost:3000/v1/api/refresh
+
+5. To get your data, visit
+
+        http://localhost:3000/v1/api/cases
+
+#### Useful commands
+
+- **docker-compose logs** shows logs from all containers
+- **docker logs &lt;container_name&gt;** shows logs from selected container
+
+### Deploy without Docker
+
 #### Pre-requisites
 
    1. Node (Tested with v12.13.1)
@@ -69,7 +75,21 @@ This will start a server at port 3000. If you want to use different port or any 
 
       NODE_ENV=development node index.js
 
-## List of available API
+## Accessing local server
+
+1. Make GET request to below url via Postman, for more details visit below section. You can also get this data via opening this link in browser.
+
+        http://localhost:3000/
+
+2. Populate base data by calling below endpoint
+
+        http://localhost:3000/v1/api/refresh
+
+3. To get your data, visit
+
+        http://localhost:3000/v1/api/cases
+
+### List of available APIs
 
 [Public Documentation has been made available](https://documenter.getpostman.com/view/5352730/SzYbyxR5?version=latest). Here is a [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/e3db374a45c3f3a7eec1) button to import the same and test.  Case types are confirmed, deaths and recovered. Open API 3 Spec is present in repo with name `open-api-3-spec.yml`.
 
