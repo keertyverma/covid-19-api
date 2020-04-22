@@ -59,6 +59,7 @@ MongoDB configuration can also be provided by environment variable `db_connectio
 
 There is no need to configure any collection and documents in MongoDB. To start the server, please run following command while being at root of project
 
+      npm install
       node index.js
 
 This will start a server at port `3000` on `localhost`.
