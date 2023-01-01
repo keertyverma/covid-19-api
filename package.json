@@ -17,7 +17,7 @@
   "keywords": [],
   "dependencies": {
     "compression": "^1.7.4",
-    "config": "^3.2.2",
+    "config": "^3.3.8",
     "csvtojson": "^2.0.10",
     "date-and-time": "^0.13.1",
     "debug": "^4.1.1",
